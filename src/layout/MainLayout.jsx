@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { BottomNav } from "../components/BottomNav.jsx";
 import { IconHamburger, IconMessenger, IconSearch } from "../components/Icons.jsx";
 
@@ -13,20 +13,36 @@ const titles = {
 };
 
 export function MainLayout() {
-  const { pathname } = useLocation();
+  const { pathname, state } = useLocation();
+  const navigate = useNavigate();
   const title = titles[pathname] ?? "Facebook";
+  const menuOpen = pathname === "/menu";
+
+  function handleMenuClick() {
+    if (menuOpen) {
+      const back =
+        typeof state?.from === "string" && state.from !== "/menu"
+          ? state.from
+          : "/home";
+      navigate(back);
+    } else {
+      navigate("/menu", { state: { from: pathname } });
+    }
+  }
 
   return (
     <div className="app-shell">
       <div className="phone-frame">
         <header className="fb-header">
-          <NavLink
-            to="/menu"
-            className={({ isActive }) => `icon-btn${isActive ? " active" : ""}`}
-            aria-label="Open menu"
+          <button
+            type="button"
+            className={`icon-btn${menuOpen ? " active" : ""}`}
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+            onClick={handleMenuClick}
           >
             <IconHamburger />
-          </NavLink>
+          </button>
           <div className="fb-header-center">
             {pathname === "/home" ? (
               <span className="fb-header-title">facebook</span>
