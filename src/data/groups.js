@@ -1,38 +1,25 @@
 /**
- * Stock imagery — Unsplash URLs verified HTTP 200.
- * coverByFilter: image when that chip is selected (thematic to filter + group).
+ * Group covers use Lorem Picsum seeded URLs (`cov`) so every group and every chip
+ * state gets a distinct image — no reuse across rows or between default vs filters.
+ * coverByFilter: image when that chip is selected.
  * nameByFilter: optional display title per active chip (same keys as coverByFilter you care about).
  * filterTags: which chips include this group.
  * coverDefault: when no chip is selected (generic mix).
+ * outdoorsHeavy: when true, group is hidden from Discover until a chip is selected
+ *   (keeps the unfiltered grid light on hiking/outdoors; Nature & Outdoors still lists all tagged groups).
+ *
+ * `cov(groupId, variant)` builds a unique Lorem Picsum seed per group + variant so no image is shared
+ * across groups or between default and chip-selected states for the same card.
  */
+function cov(groupId, variant) {
+  const id = groupId.replace(/-/g, "");
+  const v = String(variant).replace(/[^a-zA-Z0-9]/g, "");
+  return `https://picsum.photos/seed/fbg${id}${v}/640/400`;
+}
 
-const U = (slug) =>
-  `https://images.unsplash.com/photo-${slug}?auto=format&fit=crop&w=640&h=400&q=80`;
-
-/* Reusable stock photos (by theme) */
-const STOCK = {
-  hikeTrail: U("1551632811-561732d1e306"),
-  mountains: U("1464822759023-fed622ff2c3b"),
-  alpineLake: U("1506905925346-21bda4d32df4"),
-  mistForest: U("1469474968028-56623f02e42e"),
-  foodSpread: U("1546069901-ba9599a7e63c"),
-  brunch: U("1504674900247-0877df9cc836"),
-  restaurant: U("1517248135467-4c7edcad34c4"),
-  dogBeach: U("1530281700549-e82e7bf110d6"),
-  catClose: U("1574158622682-e40e69881006"),
-  laptopDesk: U("1521737604893-d14cc237f11d"),
-  openLaptop: U("1504384308090-c894fdcc538d"),
-  vinylMusic: U("1529156069898-49953e39b3ac"),
-  fashionWalk: U("1445205170230-053b83016050"),
-  classroom: U("1503676260728-1c00da094a0b"),
-  meetingTable: U("1507003211169-0a1dd7228f2d"),
-  abstractBlue: U("1559827260-dc66d52bef19"),
-  paddleRiver: U("1544551763-46a013bb70d5"),
-  /** Outdoor wellness — verified HTTP 200 */
-  yogaPark: U("1506126613408-eca07ce68773"),
-  /** Cycling / motion — verified HTTP 200 */
-  bikePath: U("1558618666-fcd25c85cd64"),
-};
+function chipSlug(filterLabel) {
+  return filterLabel.replace(/[^a-zA-Z0-9]+/g, "").toLowerCase();
+}
 
 export const GROUP_FILTERS = [
   "Nature & Outdoors",
@@ -58,10 +45,10 @@ export const discoverGroups = [
     iconKey: "mountain",
     blurb: "Day hikes, trail reports, and meetups from the coast to the foothills.",
     filterTags: ["Nature & Outdoors", "Travel"],
-    coverDefault: STOCK.hikeTrail,
+    coverDefault: cov("g-hike-ga", "default"),
     coverByFilter: {
-      "Nature & Outdoors": STOCK.hikeTrail,
-      Travel: STOCK.mistForest,
+      "Nature & Outdoors": cov("g-hike-ga", chipSlug("Nature & Outdoors")),
+      Travel: cov("g-hike-ga", chipSlug("Travel")),
     },
     nameByFilter: {
       "Nature & Outdoors": "Georgia Trail Reports & Day Hikes",
@@ -72,16 +59,17 @@ export const discoverGroups = [
   },
   {
     id: "g-wild-women",
+    outdoorsHeavy: true,
     name: "Wild Women Wanderers",
     category: "Outdoors · Southeast GA",
     memberCount: "4.2K members",
     iconKey: "tree",
     blurb: "Women-led hikes, paddles, and camping weekends across Georgia.",
     filterTags: ["Nature & Outdoors", "Travel"],
-    coverDefault: STOCK.alpineLake,
+    coverDefault: cov("g-wild-women", "default"),
     coverByFilter: {
-      "Nature & Outdoors": STOCK.mountains,
-      Travel: STOCK.alpineLake,
+      "Nature & Outdoors": cov("g-wild-women", chipSlug("Nature & Outdoors")),
+      Travel: cov("g-wild-women", chipSlug("Travel")),
     },
     nameByFilter: {
       "Nature & Outdoors": "Ridge Trails & Summit Weekends (Women)",
@@ -90,16 +78,17 @@ export const discoverGroups = [
   },
   {
     id: "g-plant-sav",
+    outdoorsHeavy: true,
     name: "Savannah Plant Community",
     category: "Nature · Savannah, GA",
     memberCount: "8.3K members",
     iconKey: "tree",
     blurb: "Swaps, native species, and greenhouse tours in the Lowcountry.",
     filterTags: ["Nature & Outdoors", "Crafts"],
-    coverDefault: STOCK.mistForest,
+    coverDefault: cov("g-plant-sav", "default"),
     coverByFilter: {
-      "Nature & Outdoors": STOCK.mistForest,
-      Crafts: STOCK.abstractBlue,
+      "Nature & Outdoors": cov("g-plant-sav", chipSlug("Nature & Outdoors")),
+      Crafts: cov("g-plant-sav", chipSlug("Crafts")),
     },
     nameByFilter: {
       "Nature & Outdoors": "Lowcountry Native Plants & Greenhouse Tours",
@@ -108,16 +97,17 @@ export const discoverGroups = [
   },
   {
     id: "g-north-ga",
+    outdoorsHeavy: true,
     name: "North GA Hiking & Camping Group",
     category: "Hiking · North Georgia",
     memberCount: "10K members",
     iconKey: "mountain",
     blurb: "Waterfalls, ridge trails, and cold-weather camps in the mountains.",
     filterTags: ["Nature & Outdoors", "Travel"],
-    coverDefault: STOCK.mountains,
+    coverDefault: cov("g-north-ga", "default"),
     coverByFilter: {
-      "Nature & Outdoors": STOCK.mountains,
-      Travel: STOCK.alpineLake,
+      "Nature & Outdoors": cov("g-north-ga", chipSlug("Nature & Outdoors")),
+      Travel: cov("g-north-ga", chipSlug("Travel")),
     },
     nameByFilter: {
       "Nature & Outdoors": "Waterfalls & Blue Ridge Backpacking",
@@ -126,17 +116,18 @@ export const discoverGroups = [
   },
   {
     id: "g-ga-outdoor",
+    outdoorsHeavy: true,
     name: "Georgia Outdoor Adventures",
     category: "Outdoors · Georgia",
     memberCount: "19K members",
     iconKey: "compass",
     blurb: "Kayaking, backpacking, and climbing — all skill levels welcome.",
     filterTags: ["Nature & Outdoors", "Drink", "Travel"],
-    coverDefault: STOCK.alpineLake,
+    coverDefault: cov("g-ga-outdoor", "default"),
     coverByFilter: {
-      "Nature & Outdoors": STOCK.hikeTrail,
-      Drink: STOCK.restaurant,
-      Travel: STOCK.mistForest,
+      "Nature & Outdoors": cov("g-ga-outdoor", chipSlug("Nature & Outdoors")),
+      Drink: cov("g-ga-outdoor", chipSlug("Drink")),
+      Travel: cov("g-ga-outdoor", chipSlug("Travel")),
     },
     nameByFilter: {
       "Nature & Outdoors": "Backpacking, Climbing & Trail Crew",
@@ -154,11 +145,11 @@ export const discoverGroups = [
     iconKey: "waves",
     blurb: "Pop-up dinners, farmers market crawls, and Lowcountry recipes.",
     filterTags: ["Food", "Drink", "Travel"],
-    coverDefault: STOCK.foodSpread,
+    coverDefault: cov("g-sav-food", "default"),
     coverByFilter: {
-      Food: STOCK.foodSpread,
-      Drink: STOCK.restaurant,
-      Travel: STOCK.brunch,
+      Food: cov("g-sav-food", chipSlug("Food")),
+      Drink: cov("g-sav-food", chipSlug("Drink")),
+      Travel: cov("g-sav-food", chipSlug("Travel")),
     },
     nameByFilter: {
       Food: "Savannah Supper Club",
@@ -174,10 +165,10 @@ export const discoverGroups = [
     iconKey: "waves",
     blurb: "Brunch spots, seafood shacks, and hidden gems from Tybee to Bluffton.",
     filterTags: ["Food", "Travel"],
-    coverDefault: STOCK.brunch,
+    coverDefault: cov("g-lowcountry-eats", "default"),
     coverByFilter: {
-      Food: STOCK.brunch,
-      Travel: STOCK.restaurant,
+      Food: cov("g-lowcountry-eats", chipSlug("Food")),
+      Travel: cov("g-lowcountry-eats", chipSlug("Travel")),
     },
     nameByFilter: {
       Food: "Lowcountry Foodies",
@@ -192,10 +183,10 @@ export const discoverGroups = [
     iconKey: "waves",
     blurb: "Beach romps, leash-friendly trails, and adoption events.",
     filterTags: ["Dogs", "Nature & Outdoors"],
-    coverDefault: STOCK.dogBeach,
+    coverDefault: cov("g-coast-dogs", "default"),
     coverByFilter: {
-      Dogs: STOCK.dogBeach,
-      "Nature & Outdoors": STOCK.hikeTrail,
+      Dogs: cov("g-coast-dogs", chipSlug("Dogs")),
+      "Nature & Outdoors": cov("g-coast-dogs", chipSlug("Nature & Outdoors")),
     },
     nameByFilter: {
       Dogs: "Coastal Georgia Dog Walkers",
@@ -210,10 +201,10 @@ export const discoverGroups = [
     iconKey: "compass",
     blurb: "Meetups, coworking days, and lightning talks for builders.",
     filterTags: ["Technology", "Education"],
-    coverDefault: STOCK.laptopDesk,
+    coverDefault: cov("g-sav-tech", "default"),
     coverByFilter: {
-      Technology: STOCK.laptopDesk,
-      Education: STOCK.classroom,
+      Technology: cov("g-sav-tech", chipSlug("Technology")),
+      Education: cov("g-sav-tech", chipSlug("Education")),
     },
     nameByFilter: {
       Technology: "Savannah Tech & Startups",
@@ -228,10 +219,10 @@ export const discoverGroups = [
     iconKey: "tree",
     blurb: "TNR support, foster networks, and coffee meetups for cat people.",
     filterTags: ["Cats", "Crafts"],
-    coverDefault: STOCK.catClose,
+    coverDefault: cov("g-cat-lowcountry", "default"),
     coverByFilter: {
-      Cats: STOCK.catClose,
-      Crafts: STOCK.abstractBlue,
+      Cats: cov("g-cat-lowcountry", chipSlug("Cats")),
+      Crafts: cov("g-cat-lowcountry", chipSlug("Crafts")),
     },
     nameByFilter: {
       Cats: "Lowcountry Cat Lounge Friends",
@@ -246,10 +237,10 @@ export const discoverGroups = [
     iconKey: "waves",
     blurb: "Open mics, jazz nights, and festival volunteer crews.",
     filterTags: ["Music", "Drink"],
-    coverDefault: STOCK.vinylMusic,
+    coverDefault: cov("g-sav-music", "default"),
     coverByFilter: {
-      Music: STOCK.vinylMusic,
-      Drink: STOCK.restaurant,
+      Music: cov("g-sav-music", chipSlug("Music")),
+      Drink: cov("g-sav-music", chipSlug("Drink")),
     },
     nameByFilter: {
       Music: "Savannah Live & Local",
@@ -264,10 +255,10 @@ export const discoverGroups = [
     iconKey: "compass",
     blurb: "Vintage markets, local designers, and photo walks.",
     filterTags: ["Fashion", "Crafts"],
-    coverDefault: STOCK.fashionWalk,
+    coverDefault: cov("g-sav-fashion", "default"),
     coverByFilter: {
-      Fashion: STOCK.fashionWalk,
-      Crafts: STOCK.abstractBlue,
+      Fashion: cov("g-sav-fashion", chipSlug("Fashion")),
+      Crafts: cov("g-sav-fashion", chipSlug("Crafts")),
     },
     nameByFilter: {
       Fashion: "Hostess City Style",
@@ -282,10 +273,10 @@ export const discoverGroups = [
     iconKey: "tree",
     blurb: "Town halls, voter info, and neighborhood advocacy — civil discourse only.",
     filterTags: ["Politics", "Education"],
-    coverDefault: STOCK.meetingTable,
+    coverDefault: cov("g-civic-sav", "default"),
     coverByFilter: {
-      Politics: STOCK.meetingTable,
-      Education: STOCK.classroom,
+      Politics: cov("g-civic-sav", chipSlug("Politics")),
+      Education: cov("g-civic-sav", chipSlug("Education")),
     },
     nameByFilter: {
       Politics: "Savannah Civic Forum",
@@ -294,17 +285,18 @@ export const discoverGroups = [
   },
   {
     id: "g-ogeechee-paddle",
+    outdoorsHeavy: true,
     name: "Ogeechee River Paddlers",
     category: "Kayaking · Coastal GA",
     memberCount: "2.6K members",
     iconKey: "waves",
     blurb: "Blackwater floats, shuttle days, and cold-water safety tips for new paddlers.",
     filterTags: ["Nature & Outdoors", "Travel", "Drink"],
-    coverDefault: STOCK.paddleRiver,
+    coverDefault: cov("g-ogeechee-paddle", "default"),
     coverByFilter: {
-      "Nature & Outdoors": STOCK.paddleRiver,
-      Travel: STOCK.alpineLake,
-      Drink: STOCK.restaurant,
+      "Nature & Outdoors": cov("g-ogeechee-paddle", chipSlug("Nature & Outdoors")),
+      Travel: cov("g-ogeechee-paddle", chipSlug("Travel")),
+      Drink: cov("g-ogeechee-paddle", chipSlug("Drink")),
     },
     nameByFilter: {
       "Nature & Outdoors": "Ogeechee Blackwater Paddle Club",
@@ -316,16 +308,17 @@ export const discoverGroups = [
   },
   {
     id: "g-coast-birding",
+    outdoorsHeavy: true,
     name: "Georgia Coast Birding Network",
     category: "Wildlife · Chatham & McIntosh",
     memberCount: "3.1K members",
     iconKey: "tree",
     blurb: "Rare sightings, refuge maps, and dawn field trips along the Atlantic flyway.",
     filterTags: ["Nature & Outdoors", "Education"],
-    coverDefault: STOCK.mistForest,
+    coverDefault: cov("g-coast-birding", "default"),
     coverByFilter: {
-      "Nature & Outdoors": STOCK.mountains,
-      Education: STOCK.classroom,
+      "Nature & Outdoors": cov("g-coast-birding", chipSlug("Nature & Outdoors")),
+      Education: cov("g-coast-birding", chipSlug("Education")),
     },
     nameByFilter: {
       "Nature & Outdoors": "Atlantic Flyway Field Trips",
@@ -334,16 +327,17 @@ export const discoverGroups = [
   },
   {
     id: "g-tybee-trail-run",
+    outdoorsHeavy: true,
     name: "Tybee Trail & Dune Runners",
     category: "Running · Tybee & Savannah",
     memberCount: "1.4K members",
     iconKey: "mountain",
     blurb: "Sand repeats, bridge tempo runs, and group long runs with ice bath meetups.",
     filterTags: ["Nature & Outdoors", "Travel"],
-    coverDefault: STOCK.dogBeach,
+    coverDefault: cov("g-tybee-trail-run", "default"),
     coverByFilter: {
-      "Nature & Outdoors": STOCK.hikeTrail,
-      Travel: STOCK.alpineLake,
+      "Nature & Outdoors": cov("g-tybee-trail-run", chipSlug("Nature & Outdoors")),
+      Travel: cov("g-tybee-trail-run", chipSlug("Travel")),
     },
     nameByFilter: {
       "Nature & Outdoors": "Coastal Trail Miles & Ridge Repeats",
@@ -352,16 +346,17 @@ export const discoverGroups = [
   },
   {
     id: "g-nature-photo",
+    outdoorsHeavy: true,
     name: "Savannah Nature Photographers",
     category: "Photography · Hostess City",
     memberCount: "5.6K members",
     iconKey: "compass",
     blurb: "Golden-hour meetups, marsh wading (carefully), and Lightroom critique nights.",
     filterTags: ["Nature & Outdoors", "Crafts"],
-    coverDefault: STOCK.alpineLake,
+    coverDefault: cov("g-nature-photo", "default"),
     coverByFilter: {
-      "Nature & Outdoors": STOCK.mistForest,
-      Crafts: STOCK.abstractBlue,
+      "Nature & Outdoors": cov("g-nature-photo", chipSlug("Nature & Outdoors")),
+      Crafts: cov("g-nature-photo", chipSlug("Crafts")),
     },
     nameByFilter: {
       "Nature & Outdoors": "Marsh Light & Wildlife Photo Walks",
@@ -370,16 +365,17 @@ export const discoverGroups = [
   },
   {
     id: "g-forsyth-yoga",
+    outdoorsHeavy: true,
     name: "Forsyth Park Outdoor Yoga",
     category: "Wellness · Downtown Savannah",
     memberCount: "920 members",
     iconKey: "tree",
     blurb: "Donation-based sunrise flows, shade-tree yin, and mindful walking meditations.",
     filterTags: ["Nature & Outdoors", "Education"],
-    coverDefault: STOCK.yogaPark,
+    coverDefault: cov("g-forsyth-yoga", "default"),
     coverByFilter: {
-      "Nature & Outdoors": STOCK.yogaPark,
-      Education: STOCK.classroom,
+      "Nature & Outdoors": cov("g-forsyth-yoga", chipSlug("Nature & Outdoors")),
+      Education: cov("g-forsyth-yoga", chipSlug("Education")),
     },
     nameByFilter: {
       "Nature & Outdoors": "Sunrise Flow Under the Oaks",
@@ -388,16 +384,17 @@ export const discoverGroups = [
   },
   {
     id: "g-longleaf-hike",
+    outdoorsHeavy: true,
     name: "Savannah Longleaf Trail Society",
     category: "Hiking · Longleaf pine belt",
     memberCount: "7.8K members",
     iconKey: "mountain",
     blurb: "Prescribed-burn awareness, rare longleaf hikes, and kid-friendly nature walks.",
     filterTags: ["Nature & Outdoors", "Education"],
-    coverDefault: STOCK.mistForest,
+    coverDefault: cov("g-longleaf-hike", "default"),
     coverByFilter: {
-      "Nature & Outdoors": STOCK.hikeTrail,
-      Education: STOCK.classroom,
+      "Nature & Outdoors": cov("g-longleaf-hike", chipSlug("Nature & Outdoors")),
+      Education: cov("g-longleaf-hike", chipSlug("Education")),
     },
     nameByFilter: {
       "Nature & Outdoors": "Longleaf Pine & Sandhill Hikes",
@@ -407,16 +404,17 @@ export const discoverGroups = [
   },
   {
     id: "g-wildflower-low",
+    outdoorsHeavy: true,
     name: "Lowcountry Wildflower Watch",
     category: "Botany · GA & SC coast",
     memberCount: "2.2K members",
     iconKey: "tree",
     blurb: "Bloom maps, pollinator gardens, and seed exchanges for coastal plain natives.",
     filterTags: ["Nature & Outdoors", "Crafts"],
-    coverDefault: STOCK.mountains,
+    coverDefault: cov("g-wildflower-low", "default"),
     coverByFilter: {
-      "Nature & Outdoors": STOCK.alpineLake,
-      Crafts: STOCK.abstractBlue,
+      "Nature & Outdoors": cov("g-wildflower-low", chipSlug("Nature & Outdoors")),
+      Crafts: cov("g-wildflower-low", chipSlug("Crafts")),
     },
     nameByFilter: {
       "Nature & Outdoors": "Coastal Plain Bloom Chasers",
@@ -431,10 +429,10 @@ export const discoverGroups = [
     iconKey: "waves",
     blurb: "Architectural deep dives, cemetery symbolism, and after-dark lantern tours.",
     filterTags: ["Education", "Travel"],
-    coverDefault: STOCK.meetingTable,
+    coverDefault: cov("g-history-walks", "default"),
     coverByFilter: {
-      Education: STOCK.classroom,
-      Travel: STOCK.fashionWalk,
+      Education: cov("g-history-walks", chipSlug("Education")),
+      Travel: cov("g-history-walks", chipSlug("Travel")),
     },
     nameByFilter: {
       Education: "Archives & Research Walks",
@@ -449,10 +447,10 @@ export const discoverGroups = [
     iconKey: "compass",
     blurb: "Blitz nights, beginner coaching, and pastry-fueled endgame drills.",
     filterTags: ["Education", "Drink"],
-    coverDefault: STOCK.meetingTable,
+    coverDefault: cov("g-chess-coffee", "default"),
     coverByFilter: {
-      Education: STOCK.classroom,
-      Drink: STOCK.brunch,
+      Education: cov("g-chess-coffee", chipSlug("Education")),
+      Drink: cov("g-chess-coffee", chipSlug("Drink")),
     },
     nameByFilter: {
       Education: "Chess & Coffee Savannah",
@@ -467,10 +465,10 @@ export const discoverGroups = [
     iconKey: "compass",
     blurb: "Slow rolls to breweries, charity centuries, and safe-street advocacy.",
     filterTags: ["Drink", "Travel"],
-    coverDefault: STOCK.bikePath,
+    coverDefault: cov("g-bikes-brews", "default"),
     coverByFilter: {
-      Drink: STOCK.restaurant,
-      Travel: STOCK.bikePath,
+      Drink: cov("g-bikes-brews", chipSlug("Drink")),
+      Travel: cov("g-bikes-brews", chipSlug("Travel")),
     },
     nameByFilter: {
       Drink: "Taproom Tuesday Social Rides",
@@ -485,10 +483,10 @@ export const discoverGroups = [
     iconKey: "waves",
     blurb: "Screenings, Q&As with directors, and crowdfunded shorts from local crews.",
     filterTags: ["Education", "Music"],
-    coverDefault: STOCK.vinylMusic,
+    coverDefault: cov("g-indie-film", "default"),
     coverByFilter: {
-      Education: STOCK.classroom,
-      Music: STOCK.vinylMusic,
+      Education: cov("g-indie-film", chipSlug("Education")),
+      Music: cov("g-indie-film", chipSlug("Music")),
     },
     nameByFilter: {
       Education: "Film Studies & Critique Nights",
@@ -497,17 +495,18 @@ export const discoverGroups = [
   },
   {
     id: "g-volunteer-parks",
+    outdoorsHeavy: true,
     name: "Chatham Parks Volunteers",
     category: "Service · County parks",
     memberCount: "1.1K members",
     iconKey: "tree",
     blurb: "Trail maintenance, invasive pulls, and family-friendly stewardship Saturdays.",
     filterTags: ["Nature & Outdoors", "Education", "Politics"],
-    coverDefault: STOCK.hikeTrail,
+    coverDefault: cov("g-volunteer-parks", "default"),
     coverByFilter: {
-      "Nature & Outdoors": STOCK.hikeTrail,
-      Education: STOCK.classroom,
-      Politics: STOCK.meetingTable,
+      "Nature & Outdoors": cov("g-volunteer-parks", chipSlug("Nature & Outdoors")),
+      Education: cov("g-volunteer-parks", chipSlug("Education")),
+      Politics: cov("g-volunteer-parks", chipSlug("Politics")),
     },
     nameByFilter: {
       "Nature & Outdoors": "Trail Build & Habitat Restoration",
@@ -533,7 +532,9 @@ export function getGroupDisplayName(group, activeFilter) {
 }
 
 export function filterGroupsByChip(groups, activeFilter) {
-  if (!activeFilter) return groups;
+  if (!activeFilter) {
+    return groups.filter((g) => !g.outdoorsHeavy);
+  }
   return groups.filter((g) => g.filterTags?.includes(activeFilter));
 }
 
