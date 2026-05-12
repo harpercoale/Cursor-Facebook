@@ -897,18 +897,26 @@ a {
   padding: 16px;
 }
 
+/* Extra top inset so the sheet + close control sit below notch / status bar
+   and clear the in-app header (search row) on iOS Chrome and Safari. */
 .group-info-overlay--sheet {
   align-items: flex-end;
   justify-content: center;
   padding: 0;
+  padding-top: calc(env(safe-area-inset-top, 0px) + 56px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  box-sizing: border-box;
 }
 
 .group-info-sheet {
   position: relative;
   width: 100%;
   max-width: 390px;
-  max-height: min(92vh, 780px);
-  height: min(92vh, 780px);
+  --group-sheet-vspace: calc(
+    env(safe-area-inset-top, 0px) + 56px + env(safe-area-inset-bottom, 0px)
+  );
+  max-height: min(92dvh, calc(100dvh - var(--group-sheet-vspace)), 780px);
+  height: min(92dvh, calc(100dvh - var(--group-sheet-vspace)), 780px);
   background: var(--fb-surface);
   border-radius: 16px 16px 0 0;
   box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.18);
@@ -930,7 +938,7 @@ a {
 .group-info-sheet-close {
   position: absolute;
   top: 12px;
-  right: 12px;
+  right: calc(12px + env(safe-area-inset-right, 0px));
   z-index: 3;
   width: 36px;
   height: 36px;
