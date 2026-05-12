@@ -2,7 +2,7 @@ import React from "react";
 import { createPortal } from "react-dom";
 import { getGroupInfoRows } from "../data/groups.js";
 
-export function GroupInfoModal({ group, coverUrl, pending, onClose, onJoin, onVisit, onCancelRequest }) {
+export function GroupInfoModal({ group, displayName, coverUrl, pending, onClose, onJoin, onVisit, onCancelRequest }) {
   if (!group) return null;
 
   const rows = getGroupInfoRows(group);
@@ -31,7 +31,7 @@ export function GroupInfoModal({ group, coverUrl, pending, onClose, onJoin, onVi
 
         <div className="group-info-sheet-scroll">
           <h2 id="group-info-title" className="group-info-sheet-title">
-            {group.name}
+            {displayName ?? group.name}
           </h2>
           <p className="group-info-sheet-sub">Private group · {group.memberCount}</p>
 

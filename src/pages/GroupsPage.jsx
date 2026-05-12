@@ -7,10 +7,11 @@ import {
   discoverGroups,
   filterGroupsByChip,
   getGroupCoverUrl,
+  getGroupDisplayName,
   GROUP_FILTERS,
 } from "../data/groups.js";
 
-function GroupCard({ group, coverUrl, pending, onJoin, onCancelPending, onOpenDetail, onDismiss }) {
+function GroupCard({ group, displayName, coverUrl, pending, onJoin, onCancelPending, onOpenDetail, onDismiss }) {
   return (
     <div
       className="group-card"
@@ -43,7 +44,7 @@ function GroupCard({ group, coverUrl, pending, onJoin, onCancelPending, onOpenDe
         </button>
       </div>
       <div className="group-card-body">
-        <p className="group-card-name">{group.name}</p>
+        <p className="group-card-name">{displayName}</p>
         <p className="group-card-meta">Private group · {group.memberCount}</p>
         <button
           type="button"
@@ -81,7 +82,7 @@ export function GroupsPage() {
     setDetailGroup(null);
     setSheetGroup({
       id: g.id,
-      name: g.name,
+      name: getGroupDisplayName(g, activeFilter),
       category: g.category,
       memberCount: g.memberCount,
     });
@@ -146,6 +147,7 @@ export function GroupsPage() {
             <GroupCard
               key={g.id}
               group={g}
+              displayName={getGroupDisplayName(g, activeFilter)}
               coverUrl={coverUrl}
               pending={pending}
               onJoin={() => openJoinSheet(g)}
@@ -160,6 +162,7 @@ export function GroupsPage() {
       {detailGroup && (
         <GroupInfoModal
           group={detailGroup}
+          displayName={getGroupDisplayName(detailGroup, activeFilter)}
           coverUrl={detailCover}
           pending={hasPendingForGroup(detailGroup.id)}
           onClose={() => setDetailGroup(null)}
