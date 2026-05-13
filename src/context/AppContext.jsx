@@ -80,12 +80,12 @@ const INITIAL_GROUP_INVITES = [
   },
 ];
 
-/** Pre-filled pending requests (Your groups → Updates). */
+/** Pre-filled pending requests (Your groups → Updates). North GA hiking is not listed here — it stays joinable from Discover and the feed only. */
 const INITIAL_PENDING_GROUP_IDS = [
   "g-hike-ga",
   "g-wild-women",
   "g-plant-sav",
-  "g-north-ga",
+  "g-coast-birding",
   "g-ga-outdoor",
 ];
 
