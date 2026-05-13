@@ -1,13 +1,13 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { IconBell, IconFriends, IconGroups, IconHome, IconReels } from "./Icons.jsx";
+import { IconBell, IconGroups, IconHome, IconProfile, IconReels } from "./Icons.jsx";
 
 const tabs = [
   { to: "/home", label: "Home", Icon: IconHome },
   { to: "/reels", label: "Reels", Icon: IconReels },
-  { to: "/friends", label: "Friends", Icon: IconFriends },
   { to: "/groups", label: "Groups", Icon: IconGroups },
   { to: "/notifications", label: "Notifications", Icon: IconBell },
+  { to: "/profile", label: "Profile", Icon: IconProfile },
 ];
 
 export function BottomNav() {

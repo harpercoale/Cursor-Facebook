@@ -119,9 +119,30 @@ export const discoverGroups = [
       Travel: lf("camping,tent", "g-north-ga", chipSlug("Travel")),
     },
     nameByFilter: {
-      "Nature & Outdoors": "Waterfalls & Blue Ridge Backpacking",
+      "Nature & Outdoors": "North Georgia Ridge Trails & Camps",
       Travel: "Multi-Day Mountain Trek Planning",
     },
+  },
+  {
+    id: "g-waterfalls-blue-ridge",
+    outdoorsHeavy: true,
+    name: "Waterfalls & Blue Ridge Backpacking",
+    category: "Backpacking · Blue Ridge Mountains",
+    memberCount: "7.8K members",
+    iconKey: "mountain",
+    blurb: "Shuttle-friendly waterfall loops, ridge-line camps, and cold-stream crossings.",
+    filterTags: ["Nature & Outdoors", "Travel"],
+    coverDefault: lf("river,stream", "g-waterfalls-blue-ridge", "default"),
+    coverByFilter: {
+      "Nature & Outdoors": lf("creek,rocks", "g-waterfalls-blue-ridge", chipSlug("Nature & Outdoors")),
+      Travel: lf("stream,forest", "g-waterfalls-blue-ridge", chipSlug("Travel")),
+    },
+    nameByFilter: {
+      "Nature & Outdoors": "Waterfalls & Blue Ridge Backpacking",
+      Travel: "Long-weekend shuttle loops",
+    },
+    since: "April 2019",
+    activityShort: "20+ posts a week",
   },
   {
     id: "g-ga-outdoor",

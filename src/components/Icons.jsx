@@ -16,11 +16,11 @@ export function IconHome({ active }) {
   );
 }
 
-export function IconFriends({ active }) {
+export function IconProfile({ active }) {
   return (
     <svg {...S}>
       <path
-        d="M9 11a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zm0 1.5c-2.5 0-4.5 1.25-4.5 2.75V17h9v-1.75c0-1.5-2-2.75-4.5-2.75zm7-4a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3 5.25c0-1.33-1.8-2.45-4.2-2.7.45.65.7 1.4.7 2.2V17h6v-1.75c0-.95-.55-1.8-2.5-2.45z"
+        d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
         opacity={active ? 1 : 0.85}
       />
     </svg>

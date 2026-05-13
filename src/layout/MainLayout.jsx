@@ -6,9 +6,9 @@ import { IconHamburger, IconMessenger, IconSearch } from "../components/Icons.js
 const titles = {
   "/home": null,
   "/reels": "Reels",
-  "/friends": "Friends",
   "/groups": "Groups",
   "/notifications": "Notifications",
+  "/profile": "Profile",
   "/menu": "Menu",
 };
 
