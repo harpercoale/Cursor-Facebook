@@ -53,11 +53,38 @@ function formatSavedTime(ts) {
   return d === 1 ? "1d ago" : `${d}d ago`;
 }
 
+/** Seeded “already joined” groups for the Your groups tab (Savannah-themed). */
+const INITIAL_JOINED_GROUP_IDS = [
+  "g-sav-food",
+  "g-lowcountry-eats",
+  "g-sav-music",
+  "g-history-walks",
+  "g-sav-tech",
+];
+
+const INITIAL_GROUP_INVITES = [
+  {
+    id: "inv1",
+    groupId: "g-longleaf-hike",
+    groupName: "Savannah Longleaf Hiking Society",
+    members: "2.4K members · Savannah, GA",
+    time: "3h",
+  },
+  {
+    id: "inv2",
+    groupId: "g-ogeechee-paddle",
+    groupName: "Georgia Coast Kayak Collective",
+    members: "3.1K members · Coastal GA",
+    time: "1d",
+  },
+];
+
 export function AppProvider({ children }) {
   const [likedPosts, setLikedPosts] = useState(() => new Set());
   const [savedPostRecords, setSavedPostRecords] = useState(() => []);
   const [pendingJoinRequests, setPendingJoinRequests] = useState([]);
   const [inviteResponses, setInviteResponses] = useState({});
+  const [joinedGroupIds, setJoinedGroupIds] = useState(() => new Set(INITIAL_JOINED_GROUP_IDS));
 
   const toggleLike = useCallback((postId) => {
     setLikedPosts((prev) => {
@@ -108,9 +135,23 @@ export function AppProvider({ children }) {
     setPendingJoinRequests((prev) => prev.filter((p) => p.groupId !== groupId));
   }, []);
 
-  const respondToInvite = useCallback((inviteId, action) => {
-    setInviteResponses((prev) => ({ ...prev, [inviteId]: action }));
+  const joinGroupId = useCallback((groupId) => {
+    if (!groupId) return;
+    setJoinedGroupIds((prev) => new Set(prev).add(groupId));
   }, []);
+
+  const respondToInvite = useCallback(
+    (inviteId, action) => {
+      setInviteResponses((prev) => ({ ...prev, [inviteId]: action }));
+      if (action === "joined") {
+        const inv = INITIAL_GROUP_INVITES.find((i) => i.id === inviteId);
+        if (inv?.groupId) joinGroupId(inv.groupId);
+      }
+    },
+    [joinGroupId]
+  );
+
+  const isJoinedGroup = useCallback((groupId) => joinedGroupIds.has(groupId), [joinedGroupIds]);
 
   const value = useMemo(
     () => ({
@@ -124,21 +165,11 @@ export function AppProvider({ children }) {
       submitJoinRequest,
       withdrawJoinRequest,
       hasPendingForGroup,
+      joinedGroupIds,
+      joinGroupId,
+      isJoinedGroup,
       generalNotifications: initialGeneralNotifications,
-      groupInvites: [
-        {
-          id: "inv1",
-          groupName: "Savannah Longleaf Hiking Society",
-          members: "2.4K members · Savannah, GA",
-          time: "3h",
-        },
-        {
-          id: "inv2",
-          groupName: "Georgia Coast Kayak Collective",
-          members: "3.1K members · Coastal GA",
-          time: "1d",
-        },
-      ],
+      groupInvites: INITIAL_GROUP_INVITES,
       inviteResponses,
       respondToInvite,
     }),
@@ -153,6 +184,9 @@ export function AppProvider({ children }) {
       submitJoinRequest,
       withdrawJoinRequest,
       hasPendingForGroup,
+      joinedGroupIds,
+      joinGroupId,
+      isJoinedGroup,
       inviteResponses,
       respondToInvite,
     ]

@@ -876,6 +876,17 @@ a {
   background: #e8eaef;
 }
 
+.group-card-member-pill {
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fb-blue);
+}
+
+.groups-your-subtabs {
+  margin: 4px 8px 0;
+}
+
 /* Suggested group in home feed — same card pattern as Groups tab */
 .feed-group-wrap {
   margin: 0 12px 10px;

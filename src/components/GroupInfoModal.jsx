@@ -2,7 +2,17 @@ import React from "react";
 import { createPortal } from "react-dom";
 import { getGroupInfoRows } from "../data/groups.js";
 
-export function GroupInfoModal({ group, displayName, coverUrl, pending, onClose, onJoin, onVisit, onCancelRequest }) {
+export function GroupInfoModal({
+  group,
+  displayName,
+  coverUrl,
+  pending,
+  isMember,
+  onClose,
+  onJoin,
+  onVisit,
+  onCancelRequest,
+}) {
   if (!group) return null;
 
   const rows = getGroupInfoRows(group);
@@ -57,15 +67,16 @@ export function GroupInfoModal({ group, displayName, coverUrl, pending, onClose,
           <button type="button" className="group-info-btn-secondary" onClick={onVisit}>
             Visit group
           </button>
-          {pending ? (
-            <button type="button" className="group-info-btn-secondary" onClick={() => onCancelRequest?.()}>
-              Cancel request
-            </button>
-          ) : (
-            <button type="button" className="group-info-btn-primary" onClick={onJoin}>
-              Join
-            </button>
-          )}
+          {!isMember &&
+            (pending ? (
+              <button type="button" className="group-info-btn-secondary" onClick={() => onCancelRequest?.()}>
+                Cancel request
+              </button>
+            ) : (
+              <button type="button" className="group-info-btn-primary" onClick={onJoin}>
+                Join
+              </button>
+            ))}
         </div>
       </div>
     </div>
