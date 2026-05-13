@@ -17,6 +17,7 @@ function GroupCard({
   displayName,
   coverUrl,
   pending,
+  isMember,
   onJoin,
   onCancelPending,
   onOpenDetail,
@@ -60,17 +61,30 @@ function GroupCard({
         <p className="group-card-name">{displayName}</p>
         <p className="group-card-meta">Private group · {group.memberCount}</p>
         {showDiscoverActions ? (
-          <button
-            type="button"
-            className={`group-card-join${pending ? " group-card-join--pending" : ""}`}
-            onClick={(e) => {
-              e.stopPropagation();
-              if (pending) onCancelPending?.();
-              else onJoin();
-            }}
-          >
-            {pending ? "Cancel request" : "Join"}
-          </button>
+          isMember ? (
+            <button
+              type="button"
+              className="group-card-join group-card-join--visit"
+              onClick={(e) => {
+                e.stopPropagation();
+                onOpenDetail?.();
+              }}
+            >
+              Visit
+            </button>
+          ) : (
+            <button
+              type="button"
+              className={`group-card-join${pending ? " group-card-join--pending" : ""}`}
+              onClick={(e) => {
+                e.stopPropagation();
+                if (pending) onCancelPending?.();
+                else onJoin?.();
+              }}
+            >
+              {pending ? "Cancel request" : "Join"}
+            </button>
+          )
         ) : (
           <p className="group-card-member-pill">Member</p>
         )}
@@ -359,6 +373,7 @@ export function GroupsPage() {
           <div className="groups-grid">
             {visibleGroups.map((g) => {
               const pending = hasPendingForGroup(g.id);
+              const member = joinedGroupIds.has(g.id);
               const coverUrl = getGroupCoverUrl(g, activeFilter);
               return (
                 <GroupCard
@@ -367,6 +382,7 @@ export function GroupsPage() {
                   displayName={getGroupDisplayName(g, activeFilter)}
                   coverUrl={coverUrl}
                   pending={pending}
+                  isMember={member}
                   onJoin={() => openJoinSheet(g)}
                   onCancelPending={() => withdrawJoinRequest(g.id)}
                   onOpenDetail={() => setDetailGroup(g)}
