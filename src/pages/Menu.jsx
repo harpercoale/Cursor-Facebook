@@ -88,26 +88,32 @@ export function Menu() {
         </button>
       </div>
 
-      <div className="saved-block">
-        <div className="saved-block-title">Saved posts</div>
-        {savedPostRecords.length === 0 ? (
-          <p className="saved-empty-hint">Posts you save from your feed will appear here.</p>
-        ) : (
-          savedPostRecords.map((s) => (
-            <button key={s.id} type="button" className="saved-post-row">
-              <span className="menu-row-icon">
-                <IconBookmark />
-              </span>
-              <div style={{ textAlign: "left", flex: 1, minWidth: 0 }}>
-                <div style={{ fontWeight: 600 }}>{s.title}</div>
-                <div style={{ fontSize: 13, color: "var(--fb-text-secondary)" }}>
-                  {s.meta ? `${formatSavedTime(s.savedAt)} · ${s.meta}` : formatSavedTime(s.savedAt)}
+      <section className="menu-saved-section" aria-labelledby="menu-saved-heading">
+        <div id="menu-saved-heading" className="menu-section-title">
+          Saved posts
+        </div>
+        <div className="menu-list menu-list--saved">
+          {savedPostRecords.length === 0 ? (
+            <div className="menu-saved-empty-row">
+              <p className="saved-empty-hint">Posts you save from your feed will appear here.</p>
+            </div>
+          ) : (
+            savedPostRecords.map((s) => (
+              <button key={s.id} type="button" className="menu-row menu-row--saved-post">
+                <span className="menu-row-icon">
+                  <IconBookmark />
+                </span>
+                <div className="menu-row-stack">
+                  <span className="menu-saved-title">{s.title}</span>
+                  <span className="menu-saved-meta">
+                    {s.meta ? `${formatSavedTime(s.savedAt)} · ${s.meta}` : formatSavedTime(s.savedAt)}
+                  </span>
                 </div>
-              </div>
-            </button>
-          ))
-        )}
-      </div>
+              </button>
+            ))
+          )}
+        </div>
+      </section>
 
       <div className="menu-section-title">Settings & activity</div>
       <div className="menu-list">

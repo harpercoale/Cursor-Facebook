@@ -434,22 +434,50 @@ a {
   text-align: left;
 }
 
-.saved-block {
-  margin: 16px 8px 12px;
-  padding: 14px 12px;
+.see-more-toggle:active {
   background: var(--fb-bg);
-  border: 1px solid var(--fb-divider);
-  border-radius: var(--fb-radius-card);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
-.saved-block-title {
-  font-size: 13px;
-  font-weight: 700;
+.menu-saved-section {
+  margin-bottom: 8px;
+}
+
+.menu-list--saved {
+  border-left: 3px solid var(--fb-blue);
+}
+
+.menu-saved-empty-row {
+  padding: 14px 16px;
+}
+
+.menu-saved-empty-row .saved-empty-hint {
+  margin: 0;
+}
+
+.menu-row--saved-post {
+  align-items: flex-start;
+}
+
+.menu-row-stack {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  text-align: left;
+}
+
+.menu-saved-title {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.menu-saved-meta {
+  font-size: 15px;
+  font-weight: 400;
   color: var(--fb-text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  margin-bottom: 10px;
 }
 
 .saved-empty-hint {
@@ -457,23 +485,6 @@ a {
   font-size: 14px;
   color: var(--fb-text-secondary);
   line-height: 1.4;
-}
-
-.saved-post-row {
-  width: 100%;
-  text-align: left;
-  background: var(--fb-surface);
-  border-radius: 8px;
-  margin-bottom: 8px;
-  border: 1px solid var(--fb-divider);
-  padding: 10px 12px;
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-}
-
-.saved-post-row:last-child {
-  margin-bottom: 0;
 }
 
 .notif-section {
@@ -516,6 +527,33 @@ a {
 .notif-icon-wrap svg {
   width: 26px;
   height: 26px;
+}
+
+.notif-item--pending-group {
+  align-items: flex-start;
+}
+
+.notif-pending-cover {
+  width: 88px;
+  height: 56px;
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--fb-bg);
+  border: 1px solid var(--fb-divider);
+}
+
+.notif-pending-cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.notif-pending-cover-fallback {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--fb-blue-soft), var(--fb-bg));
 }
 
 .notif-body {

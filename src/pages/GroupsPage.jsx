@@ -1,11 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { GroupInfoModal } from "../components/GroupInfoModal.jsx";
-import {
-  IconClock,
-  IconEnvelope,
-  IconPin,
-} from "../components/Icons.jsx";
+import { IconEnvelope, IconPin } from "../components/Icons.jsx";
 import { JoinRequestSheet } from "../components/JoinRequestSheet.jsx";
 import { useApp } from "../context/AppContext.jsx";
 import {
@@ -93,6 +89,11 @@ function YourGroupsUpdatesPanel() {
     formatSavedTime,
   } = useApp();
 
+  const sortedPendingJoinRequests = useMemo(
+    () => [...pendingJoinRequests].sort((a, b) => b.requestedAt - a.requestedAt),
+    [pendingJoinRequests]
+  );
+
   return (
     <>
       <div className="notif-section">
@@ -102,29 +103,37 @@ function YourGroupsUpdatesPanel() {
             When you request to join a group, it will show here until you withdraw or an admin responds.
           </p>
         ) : (
-          pendingJoinRequests.map((req) => (
-            <div key={req.groupId} className="notif-item">
-              <div className="notif-icon-wrap" aria-hidden>
-                <IconClock />
-              </div>
-              <div className="notif-body">
-                <div className="notif-title">
-                  Your request to join <strong>{req.groupName}</strong> is pending admin review.
+          sortedPendingJoinRequests.map((req) => {
+            const fullGroup = discoverGroups.find((g) => g.id === req.groupId);
+            const coverUrl = fullGroup ? getGroupCoverUrl(fullGroup, null) : null;
+            return (
+              <div key={req.groupId} className="notif-item notif-item--pending-group">
+                <div className="notif-pending-cover" aria-hidden>
+                  {coverUrl ? (
+                    <img src={coverUrl} alt="" className="notif-pending-cover-img" />
+                  ) : (
+                    <div className="notif-pending-cover-fallback" />
+                  )}
                 </div>
-                <div className="notif-time">{formatSavedTime(req.requestedAt)}</div>
-                <span className="status-pill pending">Pending</span>
-                <div className="notif-row-actions">
-                  <button
-                    type="button"
-                    className="notif-text-btn"
-                    onClick={() => withdrawJoinRequest(req.groupId)}
-                  >
-                    Withdraw request
-                  </button>
+                <div className="notif-body">
+                  <div className="notif-title">
+                    Your request to join <strong>{req.groupName}</strong> is pending admin review.
+                  </div>
+                  <div className="notif-time">{formatSavedTime(req.requestedAt)}</div>
+                  <span className="status-pill pending">Pending</span>
+                  <div className="notif-row-actions">
+                    <button
+                      type="button"
+                      className="notif-text-btn"
+                      onClick={() => withdrawJoinRequest(req.groupId)}
+                    >
+                      Withdraw request
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))
+            );
+          })
         )}
       </div>
 

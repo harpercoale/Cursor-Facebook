@@ -1,4 +1,5 @@
 import React, { createContext, useCallback, useContext, useMemo, useState } from "react";
+import { feedPosts } from "../data/feed.js";
 import { discoverGroups } from "../data/groups.js";
 
 const AppContext = createContext(null);
@@ -106,7 +107,10 @@ function buildInitialPendingJoinRequests() {
 
 export function AppProvider({ children }) {
   const [likedPosts, setLikedPosts] = useState(() => new Set());
-  const [savedPostRecords, setSavedPostRecords] = useState(() => []);
+  const [savedPostRecords, setSavedPostRecords] = useState(() => {
+    const p4 = feedPosts.find((p) => p.id === "p4");
+    return p4 ? [buildSavedPostRecord(p4)] : [];
+  });
   const [pendingJoinRequests, setPendingJoinRequests] = useState(() => buildInitialPendingJoinRequests());
   const [inviteResponses, setInviteResponses] = useState({});
   const [joinedGroupIds, setJoinedGroupIds] = useState(() => new Set(INITIAL_JOINED_GROUP_IDS));
@@ -138,7 +142,6 @@ export function AppProvider({ children }) {
     setPendingJoinRequests((prev) => {
       if (prev.some((p) => p.groupId === group.id)) return prev;
       return [
-        ...prev,
         {
           groupId: group.id,
           groupName: group.name,
@@ -146,6 +149,7 @@ export function AppProvider({ children }) {
           memberCount: group.memberCount,
           requestedAt: Date.now(),
         },
+        ...prev,
       ];
     });
   }, []);
