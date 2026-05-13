@@ -1,4 +1,5 @@
 import React, { createContext, useCallback, useContext, useMemo, useState } from "react";
+import { discoverGroups } from "../data/groups.js";
 
 const AppContext = createContext(null);
 
@@ -79,10 +80,34 @@ const INITIAL_GROUP_INVITES = [
   },
 ];
 
+/** Pre-filled pending requests (Your groups → Updates). */
+const INITIAL_PENDING_GROUP_IDS = [
+  "g-hike-ga",
+  "g-wild-women",
+  "g-plant-sav",
+  "g-north-ga",
+  "g-ga-outdoor",
+];
+
+function buildInitialPendingJoinRequests() {
+  const t = Date.now();
+  return INITIAL_PENDING_GROUP_IDS.map((groupId, i) => {
+    const g = discoverGroups.find((row) => row.id === groupId);
+    if (!g) return null;
+    return {
+      groupId: g.id,
+      groupName: g.name,
+      category: g.category,
+      memberCount: g.memberCount,
+      requestedAt: t - (i + 1) * 7200000,
+    };
+  }).filter(Boolean);
+}
+
 export function AppProvider({ children }) {
   const [likedPosts, setLikedPosts] = useState(() => new Set());
   const [savedPostRecords, setSavedPostRecords] = useState(() => []);
-  const [pendingJoinRequests, setPendingJoinRequests] = useState([]);
+  const [pendingJoinRequests, setPendingJoinRequests] = useState(() => buildInitialPendingJoinRequests());
   const [inviteResponses, setInviteResponses] = useState({});
   const [joinedGroupIds, setJoinedGroupIds] = useState(() => new Set(INITIAL_JOINED_GROUP_IDS));
 
