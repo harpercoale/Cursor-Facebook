@@ -8,6 +8,7 @@ import { Menu } from "./pages/Menu.jsx";
 import { Notifications } from "./pages/Notifications.jsx";
 import { Profile } from "./pages/Profile.jsx";
 import { Reels } from "./pages/Reels.jsx";
+import { SavedPostPage } from "./pages/SavedPostPage.jsx";
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
         <Route path="/notifications" element={<Notifications />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/menu" element={<Menu />} />
+        <Route path="/saved/:postId" element={<SavedPostPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/home" replace />} />
     </Routes>

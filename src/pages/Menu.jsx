@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useApp } from "../context/AppContext.jsx";
 import {
   IconBookmark,
@@ -41,6 +41,7 @@ const utilities = [
 
 export function Menu() {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const { savedPostRecords, formatSavedTime } = useApp();
   const [seeMore, setSeeMore] = useState(false);
 
@@ -99,7 +100,12 @@ export function Menu() {
             </div>
           ) : (
             savedPostRecords.map((s) => (
-              <button key={s.id} type="button" className="menu-row menu-row--saved-post">
+              <button
+                key={s.id}
+                type="button"
+                className="menu-row menu-row--saved-post"
+                onClick={() => navigate(`/saved/${s.id}`, { state: { from: pathname } })}
+              >
                 <span className="menu-row-icon">
                   <IconBookmark />
                 </span>

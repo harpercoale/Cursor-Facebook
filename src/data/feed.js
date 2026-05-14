@@ -120,3 +120,7 @@ export const feedPosts = [
     shares: 0,
   },
 ];
+
+export function getFeedPostById(id) {
+  return feedPosts.find((p) => p.id === id) ?? null;
+}

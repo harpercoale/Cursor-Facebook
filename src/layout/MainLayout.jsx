@@ -12,10 +12,15 @@ const titles = {
   "/menu": "Menu",
 };
 
+function headerTitle(pathname) {
+  if (pathname.startsWith("/saved/")) return "Saved post";
+  return titles[pathname] ?? "Facebook";
+}
+
 export function MainLayout() {
   const { pathname, state } = useLocation();
   const navigate = useNavigate();
-  const title = titles[pathname] ?? "Facebook";
+  const title = headerTitle(pathname);
   const menuOpen = pathname === "/menu";
 
   function handleMenuClick() {
