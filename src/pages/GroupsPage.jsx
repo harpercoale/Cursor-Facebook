@@ -179,12 +179,15 @@ export function GroupsPage() {
   const [sheetGroup, setSheetGroup] = useState(null);
   const [activeFilter, setActiveFilter] = useState(null);
   const [activeTab, setActiveTab] = useState("discover");
+  const [yourSubTab, setYourSubTab] = useState("joined");
   const [detailGroup, setDetailGroup] = useState(null);
   const [dismissedIds, setDismissedIds] = useState(() => new Set());
 
   useEffect(() => {
     if (searchParams.get("tab") === "your-groups") {
       setActiveTab("your-groups");
+      const sub = searchParams.get("subtab");
+      if (sub === "requests" || sub === "pending") setYourSubTab("requests");
       setSearchParams({}, { replace: true });
     }
   }, [searchParams, setSearchParams]);
@@ -258,63 +261,99 @@ export function GroupsPage() {
 
       {activeTab === "your-groups" && (
         <>
-          <div className="groups-section-title">Groups you&apos;ve joined</div>
-          {joinedGroups.length === 0 ? (
-            <p className="notif-empty-hint">Groups you join will appear here.</p>
-          ) : (
-            <div className="groups-grid">
-              {joinedGroups.map((g) => (
-                <GroupCard
-                  key={g.id}
-                  group={g}
-                  displayName={g.name}
-                  coverUrl={getGroupCoverUrl(g, null)}
-                  pending={false}
-                  showDiscoverActions={false}
-                  onOpenDetail={() => setDetailGroup(g)}
-                />
-              ))}
-            </div>
+          <div className="notif-subtabs groups-your-subtabs" role="tablist" aria-label="Your groups sections">
+            <button
+              type="button"
+              role="tab"
+              aria-selected={yourSubTab === "joined"}
+              className={`notif-subtab${yourSubTab === "joined" ? " active" : ""}`}
+              onClick={() => setYourSubTab("joined")}
+            >
+              Joined
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={yourSubTab === "requests"}
+              className={`notif-subtab${yourSubTab === "requests" ? " active" : ""}`}
+              onClick={() => setYourSubTab("requests")}
+            >
+              Pending & invites
+            </button>
+          </div>
+
+          {yourSubTab === "joined" && (
+            <>
+              {joinedGroups.length === 0 ? (
+                <p className="notif-empty-hint">Groups you join will appear here.</p>
+              ) : (
+                <div className="groups-grid">
+                  {joinedGroups.map((g) => (
+                    <GroupCard
+                      key={g.id}
+                      group={g}
+                      displayName={g.name}
+                      coverUrl={getGroupCoverUrl(g, null)}
+                      pending={false}
+                      showDiscoverActions={false}
+                      onOpenDetail={() => setDetailGroup(g)}
+                    />
+                  ))}
+                </div>
+              )}
+            </>
           )}
 
-          <div className="groups-section-title">Pending requests</div>
-          {pendingJoinRequests.length === 0 ? (
-            <p className="notif-empty-hint groups-section-hint">No pending join requests.</p>
-          ) : (
-            <div className="groups-compact-list">
-              {sortedPendingJoinRequests.map((req) => {
-                const fullGroup = discoverGroups.find((g) => g.id === req.groupId);
-                const coverUrl = fullGroup ? getGroupCoverUrl(fullGroup, null) : null;
-                return (
-                  <PendingGroupRow
-                    key={req.groupId}
-                    req={req}
-                    coverUrl={coverUrl}
-                    formatSavedTime={formatSavedTime}
-                    onOpen={() => openGroupDetail(req.groupId)}
-                    onWithdraw={() => withdrawJoinRequest(req.groupId)}
-                  />
-                );
-              })}
-            </div>
-          )}
+          {yourSubTab === "requests" && (
+            <>
+              {pendingJoinRequests.length === 0 && visibleInvites.length === 0 ? (
+                <p className="notif-empty-hint">
+                  Pending join requests and group invites will appear here.
+                </p>
+              ) : (
+                <>
+                  {pendingJoinRequests.length > 0 && (
+                    <>
+                      <div className="groups-section-title">Pending requests</div>
+                      <div className="groups-compact-list">
+                        {sortedPendingJoinRequests.map((req) => {
+                          const fullGroup = discoverGroups.find((g) => g.id === req.groupId);
+                          const coverUrl = fullGroup ? getGroupCoverUrl(fullGroup, null) : null;
+                          return (
+                            <PendingGroupRow
+                              key={req.groupId}
+                              req={req}
+                              coverUrl={coverUrl}
+                              formatSavedTime={formatSavedTime}
+                              onOpen={() => openGroupDetail(req.groupId)}
+                              onWithdraw={() => withdrawJoinRequest(req.groupId)}
+                            />
+                          );
+                        })}
+                      </div>
+                    </>
+                  )}
 
-          <div className="groups-section-title">Group invites</div>
-          {visibleInvites.length === 0 ? (
-            <p className="notif-empty-hint groups-section-hint">No group invites right now.</p>
-          ) : (
-            <div className="groups-compact-list">
-              {visibleInvites.map((inv) => (
-                <GroupInviteRow
-                  key={inv.id}
-                  invite={inv}
-                  response={inviteResponses[inv.id]}
-                  onAccept={() => respondToInvite(inv.id, "joined")}
-                  onDecline={() => respondToInvite(inv.id, "declined")}
-                  onOpen={() => openGroupDetail(inv.groupId)}
-                />
-              ))}
-            </div>
+                  {visibleInvites.length > 0 && (
+                    <>
+                      <div className="groups-section-title">Group invites</div>
+                      <div className="groups-compact-list">
+                        {visibleInvites.map((inv) => (
+                          <GroupInviteRow
+                            key={inv.id}
+                            invite={inv}
+                            response={inviteResponses[inv.id]}
+                            onAccept={() => respondToInvite(inv.id, "joined")}
+                            onDecline={() => respondToInvite(inv.id, "declined")}
+                            onOpen={() => openGroupDetail(inv.groupId)}
+                          />
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </>
+              )}
+            </>
           )}
         </>
       )}

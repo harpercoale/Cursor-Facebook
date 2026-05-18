@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { BottomNav } from "../components/BottomNav.jsx";
-import { IconHamburger, IconMessenger, IconSearch } from "../components/Icons.jsx";
+import { IconChevronBack, IconHamburger, IconMessenger, IconSearch } from "../components/Icons.jsx";
 
 const titles = {
   "/home": null,
@@ -22,6 +22,15 @@ export function MainLayout() {
   const navigate = useNavigate();
   const title = headerTitle(pathname);
   const menuOpen = pathname === "/menu";
+  const savedPostOpen = pathname.startsWith("/saved/");
+
+  function handleSavedPostBack() {
+    const back =
+      typeof state?.from === "string" && state.from.startsWith("/") && !state.from.startsWith("/saved/")
+        ? state.from
+        : "/profile";
+    navigate(back);
+  }
 
   function handleMenuClick() {
     if (menuOpen) {
@@ -39,15 +48,27 @@ export function MainLayout() {
     <div className="app-shell">
       <div className="phone-frame">
         <header className="fb-header">
-          <button
-            type="button"
-            className={`icon-btn${menuOpen ? " active" : ""}`}
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={menuOpen}
-            onClick={handleMenuClick}
-          >
-            <IconHamburger />
-          </button>
+          {savedPostOpen ? (
+            <button
+              type="button"
+              className="fb-header-back"
+              onClick={handleSavedPostBack}
+              aria-label="Back to profile"
+            >
+              <IconChevronBack />
+              <span>Back</span>
+            </button>
+          ) : (
+            <button
+              type="button"
+              className={`icon-btn${menuOpen ? " active" : ""}`}
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={menuOpen}
+              onClick={handleMenuClick}
+            >
+              <IconHamburger />
+            </button>
+          )}
           <div className="fb-header-center">
             {pathname === "/home" ? (
               <span className="fb-header-title">facebook</span>

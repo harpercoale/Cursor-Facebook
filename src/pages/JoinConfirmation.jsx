@@ -81,7 +81,7 @@ export function JoinConfirmation() {
             type="button"
             className="btn-primary"
             style={{ marginTop: 24 }}
-            onClick={() => navigate("/groups?tab=your-groups")}
+            onClick={() => navigate("/groups?tab=your-groups&subtab=requests")}
           >
             View under Your groups
           </button>
