@@ -23,6 +23,13 @@ const initialGeneralNotifications = [
     title: "On this day 3 years ago you checked in at Forsyth Park, Savannah.",
     time: "1d",
   },
+  {
+    id: "g4",
+    iconType: "pin",
+    title:
+      "Savannah Trail Hikers — 6 new posts today. Members are sharing photos from the McQueen's Island Trail and Wormsloe.",
+    time: "6h",
+  },
 ];
 
 function buildSavedPostRecord(post) {
@@ -81,7 +88,7 @@ const INITIAL_GROUP_INVITES = [
   },
 ];
 
-/** Pre-filled pending requests (Your groups → Updates). North GA hiking is not listed here — it stays joinable from Discover and the feed only. */
+/** Pre-filled pending requests (Your groups → My groups). North GA hiking is not listed here — it stays joinable from Discover and the feed only. */
 const INITIAL_PENDING_GROUP_IDS = [
   "g-hike-ga",
   "g-wild-women",

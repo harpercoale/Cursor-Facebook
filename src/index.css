@@ -648,6 +648,373 @@ a {
   color: var(--fb-text);
 }
 
+.notif-item--clickable {
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  border: none;
+  font: inherit;
+}
+
+.notif-invite-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.notif-invite-btn {
+  flex: 1;
+  margin: 0;
+  padding: 8px 10px;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 6px;
+}
+
+.notif-invite-btn--secondary {
+  background: var(--fb-bg);
+  color: var(--fb-text);
+}
+
+/* ─── Profile page ────────────────────────────────────────────────────────── */
+
+.profile-page {
+  background: var(--fb-surface);
+  min-height: 100%;
+  padding-bottom: 24px;
+}
+
+.profile-cover {
+  height: 140px;
+  background: var(--fb-bg);
+  overflow: hidden;
+}
+
+.profile-cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.profile-header-block {
+  padding: 0 16px 16px;
+  margin-top: -44px;
+  position: relative;
+}
+
+.profile-avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  border: 4px solid var(--fb-surface);
+  object-fit: cover;
+  display: block;
+}
+
+.profile-name {
+  margin: 10px 0 4px;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.profile-bio {
+  margin: 0;
+  font-size: 15px;
+  color: var(--fb-text-secondary);
+  line-height: 1.35;
+}
+
+.profile-stats {
+  display: flex;
+  gap: 24px;
+  margin-top: 14px;
+}
+
+.profile-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.profile-stat-value {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.profile-stat-label {
+  font-size: 13px;
+  color: var(--fb-text-secondary);
+}
+
+.profile-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.profile-edit-btn {
+  flex: 1;
+  margin: 0;
+}
+
+.profile-secondary-btn {
+  flex: 1;
+  padding: 10px 12px;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 6px;
+  background: var(--fb-bg);
+  color: var(--fb-text);
+}
+
+.profile-section {
+  padding: 16px;
+  border-top: 8px solid var(--fb-bg);
+}
+
+.profile-section-title {
+  margin: 0 0 10px;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.profile-about-text {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--fb-text);
+}
+
+.profile-saved-section {
+  padding-bottom: 8px;
+}
+
+.profile-saved-empty {
+  margin: 0;
+}
+
+.profile-saved-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.profile-saved-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  padding: 12px;
+  text-align: left;
+  background: var(--fb-bg);
+  border-radius: 8px;
+  border: 1px solid var(--fb-divider);
+}
+
+.profile-saved-card:active {
+  background: var(--fb-divider);
+}
+
+.profile-saved-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--fb-blue-soft);
+  color: var(--fb-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.profile-saved-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.profile-saved-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.profile-saved-title {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.profile-saved-meta {
+  font-size: 13px;
+  color: var(--fb-text-secondary);
+  line-height: 1.3;
+}
+
+.groups-pending-list {
+  margin-bottom: 8px;
+}
+
+.groups-compact-list {
+  margin-bottom: 4px;
+}
+
+.groups-section-hint {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.groups-compact-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: var(--fb-surface);
+  border-bottom: 1px solid var(--fb-divider);
+  min-height: 52px;
+}
+
+.groups-compact-row--pending {
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  border: none;
+  font: inherit;
+}
+
+.groups-compact-row--pending:active {
+  background: var(--fb-bg);
+}
+
+.groups-compact-row--invite {
+  padding-right: 8px;
+}
+
+.groups-compact-thumb {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--fb-bg);
+}
+
+.groups-compact-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.groups-compact-thumb-fallback {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--fb-blue-soft), var(--fb-bg));
+}
+
+.groups-compact-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--fb-blue-soft);
+  color: var(--fb-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.groups-compact-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.groups-compact-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.groups-compact-title {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.groups-compact-meta {
+  font-size: 13px;
+  color: var(--fb-text-secondary);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.groups-compact-action {
+  flex-shrink: 0;
+  border: none;
+  background: none;
+  padding: 4px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fb-blue);
+  cursor: pointer;
+}
+
+.groups-compact-row-hit {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  border: none;
+  background: none;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+
+.groups-compact-status {
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--fb-text-secondary);
+  padding: 4px 8px;
+}
+
+.groups-compact-invite-btns {
+  display: flex;
+  flex-shrink: 0;
+  gap: 6px;
+}
+
+.groups-compact-invite-btn {
+  padding: 6px 10px;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 6px;
+  background: var(--fb-bg);
+  color: var(--fb-text);
+  white-space: nowrap;
+}
+
+.groups-compact-invite-btn--primary {
+  background: var(--fb-blue);
+  color: #fff;
+}
+
 .modal-overlay {
   position: fixed;
   inset: 0;

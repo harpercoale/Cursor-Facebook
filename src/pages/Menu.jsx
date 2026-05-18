@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useApp } from "../context/AppContext.jsx";
+import { useNavigate } from "react-router-dom";
 import {
-  IconBookmark,
   IconCalendar,
   IconGame,
   IconGroups,
@@ -41,8 +39,6 @@ const utilities = [
 
 export function Menu() {
   const navigate = useNavigate();
-  const { pathname } = useLocation();
-  const { savedPostRecords, formatSavedTime } = useApp();
   const [seeMore, setSeeMore] = useState(false);
 
   return (
@@ -88,38 +84,6 @@ export function Menu() {
           {seeMore ? "See less" : "See more"}
         </button>
       </div>
-
-      <section className="menu-saved-section" aria-labelledby="menu-saved-heading">
-        <div id="menu-saved-heading" className="menu-section-title">
-          Saved posts
-        </div>
-        <div className="menu-list menu-list--saved">
-          {savedPostRecords.length === 0 ? (
-            <div className="menu-saved-empty-row">
-              <p className="saved-empty-hint">Posts you save from your feed will appear here.</p>
-            </div>
-          ) : (
-            savedPostRecords.map((s) => (
-              <button
-                key={s.id}
-                type="button"
-                className="menu-row menu-row--saved-post"
-                onClick={() => navigate(`/saved/${s.id}`, { state: { from: pathname } })}
-              >
-                <span className="menu-row-icon">
-                  <IconBookmark />
-                </span>
-                <div className="menu-row-stack">
-                  <span className="menu-saved-title">{s.title}</span>
-                  <span className="menu-saved-meta">
-                    {s.meta ? `${formatSavedTime(s.savedAt)} · ${s.meta}` : formatSavedTime(s.savedAt)}
-                  </span>
-                </div>
-              </button>
-            ))
-          )}
-        </div>
-      </section>
 
       <div className="menu-section-title">Settings & activity</div>
       <div className="menu-list">
