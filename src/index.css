@@ -793,6 +793,49 @@ a {
   color: var(--fb-text);
 }
 
+.profile-tabs {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--fb-divider);
+  padding: 0 4px;
+  background: var(--fb-surface);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.profile-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.profile-tab {
+  flex-shrink: 0;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--fb-text-secondary);
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  cursor: pointer;
+}
+
+.profile-tab.active {
+  color: var(--fb-blue);
+  border-bottom-color: var(--fb-blue);
+  font-weight: 600;
+}
+
+.profile-empty-tab {
+  margin: 0;
+  font-size: 15px;
+  color: var(--fb-text-secondary);
+  line-height: 1.45;
+}
+
 .profile-section {
   padding: 16px;
   border-top: 8px solid var(--fb-bg);

@@ -39,11 +39,20 @@ const utilities = [
   { key: "logout", label: "Log out", Icon: IconLogout },
 ];
 
+const SAVED_POSTS_PREVIEW = 3;
+
 export function Menu() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { savedPostRecords, formatSavedTime } = useApp();
   const [seeMore, setSeeMore] = useState(false);
+  const [seeMoreSaved, setSeeMoreSaved] = useState(false);
+
+  const hasMoreSaved = savedPostRecords.length > SAVED_POSTS_PREVIEW;
+  const visibleSavedPosts =
+    seeMoreSaved || !hasMoreSaved
+      ? savedPostRecords
+      : savedPostRecords.slice(0, SAVED_POSTS_PREVIEW);
 
   return (
     <main style={{ paddingBottom: 24 }}>
@@ -99,24 +108,36 @@ export function Menu() {
               <p className="saved-empty-hint">Posts you save from your feed will appear here.</p>
             </div>
           ) : (
-            savedPostRecords.map((s) => (
-              <button
-                key={s.id}
-                type="button"
-                className="menu-row menu-row--saved-post"
-                onClick={() => navigate(`/saved/${s.id}`, { state: { from: pathname } })}
-              >
-                <span className="menu-row-icon">
-                  <IconBookmark />
-                </span>
-                <div className="menu-row-stack">
-                  <span className="menu-saved-title">{s.title}</span>
-                  <span className="menu-saved-meta">
-                    {s.meta ? `${formatSavedTime(s.savedAt)} · ${s.meta}` : formatSavedTime(s.savedAt)}
+            <>
+              {visibleSavedPosts.map((s) => (
+                <button
+                  key={s.id}
+                  type="button"
+                  className="menu-row menu-row--saved-post"
+                  onClick={() => navigate(`/saved/${s.id}`, { state: { from: pathname } })}
+                >
+                  <span className="menu-row-icon">
+                    <IconBookmark />
                   </span>
-                </div>
-              </button>
-            ))
+                  <div className="menu-row-stack">
+                    <span className="menu-saved-title">{s.title}</span>
+                    <span className="menu-saved-meta">
+                      {s.meta ? `${formatSavedTime(s.savedAt)} · ${s.meta}` : formatSavedTime(s.savedAt)}
+                    </span>
+                  </div>
+                </button>
+              ))}
+              {hasMoreSaved && (
+                <button
+                  type="button"
+                  className="see-more-toggle"
+                  onClick={() => setSeeMoreSaved((v) => !v)}
+                  aria-expanded={seeMoreSaved}
+                >
+                  {seeMoreSaved ? "See less" : "See more"}
+                </button>
+              )}
+            </>
           )}
         </div>
       </section>
